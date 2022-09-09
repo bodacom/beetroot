@@ -12,3 +12,4 @@ name_given = input('Enter you name, please: ')
 if name_stored.lower() == name_given.lower():
     
     print(True)
+    
