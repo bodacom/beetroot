@@ -11,8 +11,9 @@ import sys
 
 print(sys.path)
 
-del sys.path[0]
+# del sys.path[0]
 
 print(sys.path)
 
-import homeworks.lesson_9.task3.mymod as mymod
+# import homeworks.lesson_9.task3.mymod as mymod
+import task3.mymod as mymod
