@@ -18,9 +18,9 @@ def make_operation(operation, *args):
         for arg in args:
             result += arg
     elif operation == "-":
-        result = 0
-        for arg in args:
-            result -= arg
+        result = args[0]
+        for arg in args[1:]:
+            result = result - arg
     elif operation == "*":
         result = 1
         for arg in args:
@@ -29,4 +29,4 @@ def make_operation(operation, *args):
     return result
 
 
-# print(make_operation('*', 2, 3, 4))
+print(make_operation('-', -1, -3))
