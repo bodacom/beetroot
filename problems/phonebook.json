@@ -1,0 +1,38 @@
+{
+    "+38098-048-64-05": {
+        "first_name": "Vasil",
+        "last_name": "Vasel",
+        "full_name": "Vasil Vasel",
+        "address": {
+            "state": "Ukraine",
+            "city": "Berdychiv"
+        }
+    },
+    "+38012-523-52-54": {
+        "first_name": "Aron",
+        "last_name": "Ronald",
+        "full_name": "Aron Ronald",
+        "address": {
+            "state": "USA",
+            "city": "Omascha"
+        }
+    },
+    "+380-12-345-67-89": {
+        "first_name": "Aaron",
+        "last_name": "Kurt",
+        "full_name": "Aaron Kurt",
+        "address": {
+            "state": "Ukraine",
+            "city": "Vinnytsia"
+        }
+    },
+    "+38098-765-43-21": {
+        "first_name": "Rom",
+        "last_name": "Renald",
+        "full_name": "Rom Renald",
+        "address": {
+            "state": "Italy",
+            "city": "Rome"
+        }
+    }
+}

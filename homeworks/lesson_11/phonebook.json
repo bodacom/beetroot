@@ -1,0 +1,20 @@
+{
+    "+38098-048-64-05": {
+        "first_name": "Bohdan",
+        "last_name": "Pishchaniuk",
+        "full_name": "Bohdan Pishchaniuk",
+        "address": {
+            "state": "Ukraine",
+            "city": "Ivano-Frankivsk"
+        }
+    },
+    "+38012-523-52-54": {
+        "first_name": "Aron",
+        "last_name": "Ronald",
+        "full_name": "Aron Ronald",
+        "address": {
+            "state": "USA",
+            "city": "Omascha"
+        }
+    }
+}
