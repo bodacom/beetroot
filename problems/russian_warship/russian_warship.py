@@ -234,9 +234,9 @@ def request_for_password():
                 continue
             print('Відповідь неправильна, спробуйте ще раз.')
 
-    sleep(0.5)
+    sleep(1.5)
     print('\nВідповідь правильна, починаємо відлік до затоплення\n')
-    sleep(0.5)
+    sleep(1.5)
 
 
 
@@ -280,11 +280,11 @@ who_shoots = random.randint(0, 1)
 user_hits = 0
 machine_hits = 0
 
-sleep_time = 1.5
+sleep_time = 1.2
 
-# play_intro(INTRO_MESSAGE)
+play_intro(INTRO_MESSAGE)
 
-# request_for_password()
+request_for_password()
 
 # main game cycle
 
