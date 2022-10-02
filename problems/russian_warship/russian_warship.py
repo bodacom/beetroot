@@ -115,6 +115,7 @@ def make_sea_subframe(sea: list, header: str, start_indentation: str, middle_ind
 
     sea_subframe = []
     sea_subframe.append(header)
+    sea_subframe.append(' ')
     for index, row in enumerate(sea):
         if index < 9:
             line_number = ' ' + str(index+1)
@@ -132,14 +133,14 @@ def make_frame(my_war_sea: list, hostile_war_sea: list):
     total_frame = []
     my_sea_subframe = []
     hostile_sea_subframe = []
+    frame_header = ' '
     header = '    A  B  C  D  E  F  G  H  I  J  '
     start_indentation = '   '
     middle_indentation = '     '
 
     my_sea_subframe = make_sea_subframe(my_war_sea, header, start_indentation, middle_indentation)
     hostile_sea_subframe = make_sea_subframe(hostile_war_sea, header, start_indentation, middle_indentation)
-    
-    # trying to make frame
+    total_frame.append(frame_header)
     for index in range(len(my_sea_subframe)):
         line = start_indentation + my_sea_subframe[index] + middle_indentation + hostile_sea_subframe[index]
         total_frame.append(line)
@@ -150,6 +151,7 @@ def make_frame(my_war_sea: list, hostile_war_sea: list):
 def print_frame(frame):
 
     clear_terminal()
+    print('\n       russian warship\n')
     for line in frame:
         # sleep(0)
         print(line)
@@ -160,6 +162,7 @@ def random_shot(war_sea: list):
     shot = False
     hit = 0
     while not shot:
+        
         i = random.randint(0,9)
         j = random.randint(0,12)
 
@@ -168,31 +171,77 @@ def random_shot(war_sea: list):
         elif war_sea[j][i] == 'S':
             war_sea[j][i] = 'X'
             hit += 1
+            shot = True
         elif war_sea[j][i] == '~':
             war_sea[j][i] = ' '
             shot = True
     return hit
 
 
-def user_shot(war_sea: list):
+def user_shot(war_sea: list, war_sea_hiden: list):
     
     shot = False
     hit = 0
     while not shot:
-        i = int(input('x coordinate: '))
-        j = int(input('y coordinate: '))
-
+        coordinate = input('\n\n    Input XY coordinate to make a shot: ')
+        coordinate = coordinate.upper()
+        letters = 'ABCDEFGHIJ'
+        if 2 <= len(coordinate) <= 3 and coordinate[0] in letters and coordinate[1:].isdigit() and 1 <= int(coordinate[1:]) <= 13:
+            i = letters.find(coordinate[0])
+            j = int(coordinate[1:])-1
+        else:
+            print('Невірний формат координат. Повторіть введення.')
+            continue
+         
         if (war_sea[j][i]) == 'X' or (war_sea[j][i] == 'o'):
-            pass
+            print('\n    Ups, you have already shoot the location.')
+            sleep(2)
+            break
         elif war_sea[j][i] == 'S':
             war_sea[j][i] = 'X'
+            war_sea_hiden[j][i] = 'X'
             hit += 1
+            shot = True
         elif war_sea[j][i] == '~':
             war_sea[j][i] = 'o'
+            war_sea_hiden[j][i] = 'o'
             shot = True
     return hit
 
 
+def play_intro(INTRO_MESSAGE):
+    
+    clear_terminal()
+
+    for i in range(len(INTRO_MESSAGE)+1):
+        clear_terminal()
+        print(INTRO_MESSAGE[:i])
+        sleep(0.03)
+
+    sleep(0.5)
+    print('Дайте вашу відповідь окупантам, щоб почати гру:\n')
+    sleep(0.5)
+
+
+def request_for_password():
+    
+    status = False
+    while not status:
+        answer = input('- рускій воєнний корабль, ')
+        if 'іді нахуй' or 'иди нахуй' in answer:
+            status = True
+            if status:
+                continue
+            print('Відповідь неправильна, спробуйте ще раз.')
+
+    sleep(0.5)
+    print('\nВідповідь правильна, починаємо відлік до затоплення\n')
+    sleep(0.5)
+
+
+
+
+# Main cycle
 
 INTRO_MESSAGE = """
 Близько 22:00, 24 лютого 2022 року, острів Зміїний, Україна.
@@ -207,67 +256,102 @@ INTRO_MESSAGE = """
   В протівном случає по вам будєт нанєсьон бомбовий удар...
 """
 
-clear_terminal()
 
-# for i in range(len(INTRO_MESSAGE)+1):
-#     clear_terminal()
-#     print(INTRO_MESSAGE[:i])
-#     sleep(0.03)
+# initiating the war seas
 
-sleep(0.5)
-print('Дайте вашу відповідь окупантам, щоб почати гру:\n')
-sleep(0.5)
-answer = input('- рускій воєнний корабль, ')
+my_war_sea = war_sea_initiate()
+hostile_war_sea = war_sea_initiate()
+hostile_war_sea_hiden = war_sea_initiate()
 
-if 'іді нахуй' in answer:
-    sleep(0.5)
-    print('\nВідповідь правильна, починаємо відлік до затоплення\n')
-    sleep(0.5)
 
-    my_war_sea = war_sea_initiate()
-    hostile_war_sea = war_sea_initiate()
 
-    random_ships_location(my_war_sea, 4, 1)
-    random_ships_location(my_war_sea, 3, 2)
-    random_ships_location(my_war_sea, 2, 3)
-    random_ships_location(my_war_sea, 1, 4)
+# initiating the war ships
 
-    frame = make_frame(my_war_sea, hostile_war_sea)
+for i in range(1, 5):
+    random_ships_location(my_war_sea, i, 5-i)
+    random_ships_location(hostile_war_sea, i, 5-i)
 
+user_ships = 20
+machine_ships = 20
+
+
+#random choice of the first shooter
+who_shoots = random.randint(0, 1)
+user_hits = 0
+machine_hits = 0
+
+sleep_time = 1.5
+
+# play_intro(INTRO_MESSAGE)
+
+# request_for_password()
+
+# main game cycle
+
+while True:
+
+  # Refresh game screen print
+    
+    frame = make_frame(my_war_sea, hostile_war_sea_hiden)
+    print_frame(frame)
+    
+    print(f'\n    Your ships left: {user_ships}            russian ships left: {machine_ships}')
+    
+    if who_shoots == 0:
+        print('\n    Your shot', end='')
+    else:
+        print('\n    Enemy shot', end='')
+
+    sleep(sleep_time)
+  # Shooting
+
+    if who_shoots == 0:
+        hit_result = user_shot(hostile_war_sea, hostile_war_sea_hiden)
+        user_hits += hit_result
+        machine_ships -= hit_result
+    else:
+        hit_result = random_shot(my_war_sea)
+        machine_hits += hit_result
+        user_ships -= hit_result
+
+
+  # Refreshing screen
+
+    frame = make_frame(my_war_sea, hostile_war_sea_hiden)
     print_frame(frame)
 
-    random_ships_location(hostile_war_sea, size=4, quantity=1)
-    random_ships_location(hostile_war_sea, size=3, quantity=2)
-    random_ships_location(hostile_war_sea, size=2, quantity=3)
-    random_ships_location(hostile_war_sea, size=1, quantity=4)
+    if machine_ships == 0:
+        #clear_terminal()
+        print(f'\n    Game Over\n     You win\n   Your ships left: {user_ships}            russian ships left: {machine_ships}')
+        break
+    elif user_ships == 0:
+        #clear_terminal()
+        print(
+            f'\n    Game Over\n     You loose\n   Your ships left: {user_ships}            russian ships left: {machine_ships}')
+        break
 
-    frame = make_frame(my_war_sea, hostile_war_sea)
+    else:
+        print(f'\n    Your ships left: {user_ships}            russian ships left: {machine_ships}')
+    
+    if hit_result > 0 and who_shoots == 0:
+        print('\n    Nice shot! You hit the ship! One more shot for you.', end='')
+        sleep(sleep_time)
+        continue
+    elif who_shoots == 0 and hit_result == 0:
+        print('\n    You missed, sorry.', end='')
 
-    print_frame(frame)
+    if who_shoots == 1 and hit_result > 0:
+        print('\n    Yay! You lost the ship! One more shot for the enemy', end='')
+        sleep(sleep_time)
+        continue
+    elif who_shoots == 1 and hit_result == 0:
+        print('\n    Enemy missed, you are lucky.', end='')
 
+  # Changing the shooter
 
-    # while True:
-    #     user_hits = 0
-    #     machine_hits = 0
+    if who_shoots == 0:
+        who_shoots = 1
+    else:
+        who_shoots = 0
 
-    #     user_hits += random_shot(hostile_war_sea)
-    #     frame = make_frame(my_war_sea, hostile_war_sea)
-    #     print_frame(frame)
-    #     sleep(0.1)
-    #     machine_hits += random_shot(my_war_sea)
-    #     frame = make_frame(my_war_sea, hostile_war_sea)
-    #     print_frame(frame)
-    #     sleep(0.1)
-
-
-# hits = random_shot(my_war_sea)
-
-# frame = make_frame(my_war_sea, hostile_war_sea)
-# print_frame(frame)
-# print(hits)
-
-# hits = user_shot(hostile_war_sea)
-
-# frame = make_frame(my_war_sea, hostile_war_sea)
-# print_frame(frame)
-# print(hits)
+    sleep(sleep_time)
