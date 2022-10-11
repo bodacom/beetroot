@@ -14,7 +14,7 @@
 
 
 # import googletrans
-# from googletrans import Translator
+from googletrans import Translator
 
 
 def generate_mistakes(text: str):
@@ -145,14 +145,27 @@ def most_frequent_words(text: str, num_of_words: int):
 
 
 # print(googletrans.LANGUAGES)
-
 # with open('texts.txt', 'r') as text_file:
 #     text = text_file.read()
 #     print(text)
 
-# translator = Translator()
+translator = Translator()
 
-# result = translator.translate('hello world')
+text = read_text_file('texts.txt')
+
+result = translator.translate(text, src='en', dest='uk')
+str_result = str(result)
+# print(type(result))
+# print(str(result))
+
+save_text_file(str_result)
+
+# print(longest_sentence(text))
+
+# print(num_of_words(text))
+
+# print(most_frequent_words(text, 20))
+
 
 # print(result.src)
 # print(result.dest)
@@ -160,12 +173,12 @@ def most_frequent_words(text: str, num_of_words: int):
 # print(result.text)
 # print(result.pronunciation)
 
-text = read_text_file('texts.txt')
+# text = read_text_file('texts.txt')
 
-save_text_file(text)
+# save_text_file(text)
 
-print(longest_sentence(text))
+# print(longest_sentence(text))
 
-print(num_of_words(text))
+# print(num_of_words(text))
 
-print(most_frequent_words(text, 20))
+# print(most_frequent_words(text, 20))
