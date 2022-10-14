@@ -15,7 +15,7 @@
 # add an explicit ‘\n’ at the end of the string if you want to fully terminate the line in the file.
 
 
-def script(file_name):
+def create_file(file_name):
     with open(file_name, 'a') as my_file:
         my_file.write('Hello file world!\n')
 
@@ -24,4 +24,4 @@ if __name__ == '__main__':
     
     file_name = input('Input file name to create: ')
 
-    script(file_name)
+    create_file(file_name)
