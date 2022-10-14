@@ -12,8 +12,8 @@ def func():
         a = input('Please input a = ')
         b = input('Please input b = ')
         if a.isnumeric() and b.isnumeric():
-            if not b == 0:
-                return (a ** 2) / b
+            if not int(b) == 0:
+                return (int(a) ** 2) / int(b)
             else:
                 raise ZeroDivisionError
         else:
@@ -21,14 +21,13 @@ def func():
 
     except ValueError:
         print('Error. Given \'a\' or \'b\' is not a number.')
-        # raise ValueError
-
+        try:
+            if int(b) == 0:
+                raise ZeroDivisionError
+        except ZeroDivisionError:
+            print("ZeroDivisionError. \'b\' can not be equal to 0")
     except ZeroDivisionError:
         print("ZeroDivisionError. \'b\' can not be equal to 0")
 
-    finally:
-            if b == 0:
-                print('b == 0')
-                raise ZeroDivisionError
 
 print(func())
