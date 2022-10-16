@@ -16,5 +16,14 @@
             "state": "USA",
             "city": "Omascha"
         }
+    },
+    "+38009-048-64-05": {
+        "first_name": "A",
+        "last_name": "B",
+        "full_name": "A B",
+        "address": {
+            "state": "U",
+            "city": "K"
+        }
     }
 }

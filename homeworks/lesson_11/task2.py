@@ -23,6 +23,7 @@
 
 import json
 
+
 def initiate_phonebook():
     try:
         with open('phonebook.json', 'r+') as phonebook_file:
@@ -41,7 +42,7 @@ def initiate_phonebook():
 
 def add_new_entry(phonebook: dict):
     
-    phone_number = "+380" + correct_input(valid_phone_number, "Enter your phone number: +380-", 
+    phone_number = "+380" + correct_input(valid_phone_number, "Enter your phone number: +38-0", 
                  "Enter your phone number in next format: +380-XX-XXX-XX-XX. Country code by default +380 (Ukraine)")
     
     try:
@@ -74,7 +75,7 @@ def add_new_entry(phonebook: dict):
             json.dump(phonebook, phonebook_file, indent=4)
 
 
-def search_by(key: str, searching_for: str):
+def search_by(phonebook: dict, key: str, searching_for: str):
     search_result = []
     
     if key == "phone_number":
@@ -87,7 +88,7 @@ def search_by(key: str, searching_for: str):
             if phonebook[phone_number]["address"][key] == searching_for:
                 search_result.append(phone_number)
                 
-        if phonebook[phone_number][key] == searching_for:
+        elif phonebook[phone_number][key] == searching_for:
             search_result.append(phone_number)
             
     return search_result
@@ -211,15 +212,29 @@ def perform(action):
     elif action == 'a':
         add_new_entry(phonebook)
     elif action == 's':
-        # to find out search criteria
-        key = None
-        value = None
-        search_by(key, value)
+        search_criteria = {'p': 'phone_number',
+                           'f': 'first_name',
+                           'l': 'last_name',
+                           'fn': 'full_name',
+                           's': 'state',
+                           'c': 'city'}
+        key = input('''Search by:
+    p - phone number
+    f - first name
+    l - last name
+    fn - full name
+    s - state
+    c - city
+    ''')
+        value = input('Input value to search for: ')
+        search_result = search_by(phonebook, search_criteria[key], value)
+        print(search_result)
     elif action == 'd':
         what_record = None
-        delete_record(what_record)
+        delete_phone_number(what_record)
     elif action == 'u':
-        update_record(what_record)
+        what_contact = None
+        update_contact_info(what_contact)
     
 
 
@@ -230,11 +245,12 @@ def request_action():
     
     option = input('''
 Choose and action:
-    q - to quit the phone book
+
     a - to add an entry
     s - to search by any of the fields
     d - to delete an entry
     u - to update an entry
+    q - to quit the phone book
 ''')
     
     if option in options:
