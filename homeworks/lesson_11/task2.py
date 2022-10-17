@@ -97,8 +97,10 @@ def delete_phone_number(phone_number: str, phonebook: dict):
     try:
         del phonebook[phone_number]
         print(f"Contact with phone number {phone_number} deleted.")
+        with open("phonebook.json", "w") as phonebook_file:
+            json.dump(phonebook, phonebook_file, indent=4)
     except KeyError:
-        print("Phone number is not exists!")
+        print("Phone number does not exist!")
 
 
 def update_contact_info(phone_number: str, key: str, phonebook: str):
@@ -207,10 +209,15 @@ def correct_input(valid_func, prompt: str, hint=False):
 
 def perform(action):
 
+    # Action == quit
     if action == 'q':
         return 0
+
+    # Action == add entry
     elif action == 'a':
         add_new_entry(phonebook)
+
+    # Action == search or search and show
     elif action == 's' or action == 'sh':
         search_criteria = {'p': 'phone_number',
                            'f': 'first_name',
@@ -219,33 +226,37 @@ def perform(action):
                            's': 'state',
                            'c': 'city'}
         key = input('''Search by:
-    p - phone number
-    f - first name
-    l - last name
-    fn - full name
-    s - state
-    c - city
-    ''')
+        p - phone number
+        f - first name
+        l - last name
+        fn - full name
+        s - state
+        c - city\n''')
 
+        print(f'Search by {search_criteria[key]}.')
         value = input('Input value to search for: ')
         search_results = search_by(phonebook, search_criteria[key], value)
         
         if action == 'sh':
             for result in search_results:
-                print(f'''
-\bPhone: {result}
-Name:  {phonebook[result]["full_name"]}
-Address
-''')
+                print(f'\nPhone:   {result}\n' + 
+                        f'Name:    {phonebook[result]["full_name"]}\n' +
+                        f'Address: {phonebook[result]["address"]["city"]}, {phonebook[result]["address"]["state"]}')
+        else:
+            print(f'Results were found: {len(search_results)}')
+            for result in search_results:
+                print(result)
 
+    # Action == delete entry
     elif action == 'd':
-        what_record = None
-        delete_phone_number(what_record)
-    elif action == 'u':
-        what_contact = None
-        update_contact_info(what_contact)
-    
+        what_record = input('What entry do you want to delete?\nInput the phone number: ')
+        delete_phone_number(what_record, phonebook)
 
+    # Action == update
+    elif action == 'u':
+        what_contact = input('What contact do you want to update: ')
+        key = input('What field do you want to update: ')
+        update_contact_info(what_contact, key, phonebook)
 
 
 def request_action():
@@ -254,14 +265,12 @@ def request_action():
     
     option = input('''
 Choose and action:
-
     a - to add an entry
     s - to search by any of the fields
     sh - to search and show the entities 
     d - to delete an entry
     u - to update an entry
-    q - to quit the phone book
-''')
+    q - to quit the phone book\n''')
     
     if option in options:
         return option
@@ -269,6 +278,8 @@ Choose and action:
         print('\nAction does not exist.')
         return -1
 
+
+# main program body
 
 if __name__ == '__main__':
 

@@ -1,8 +1,8 @@
 {
     "+38098-048-64-05": {
-        "first_name": "Bohdan",
+        "first_name": "Vahtang",
         "last_name": "Pishchaniuk",
-        "full_name": "Bohdan Pishchaniuk",
+        "full_name": "Vahtang Pishchaniuk",
         "address": {
             "state": "Ukraine",
             "city": "Ivano-Frankivsk"
@@ -33,6 +33,15 @@
         "address": {
             "state": "Ukraine",
             "city": "Kyiv"
+        }
+    },
+    "+38066-565-47-32": {
+        "first_name": "Ivan",
+        "last_name": "Oksan",
+        "full_name": "Ivan Oksan",
+        "address": {
+            "state": "Urtaine",
+            "city": "Kharkiv"
         }
     }
 }
