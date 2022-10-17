@@ -211,7 +211,7 @@ def perform(action):
         return 0
     elif action == 'a':
         add_new_entry(phonebook)
-    elif action == 's':
+    elif action == 's' or action == 'sh':
         search_criteria = {'p': 'phone_number',
                            'f': 'first_name',
                            'l': 'last_name',
@@ -226,9 +226,18 @@ def perform(action):
     s - state
     c - city
     ''')
+
         value = input('Input value to search for: ')
-        search_result = search_by(phonebook, search_criteria[key], value)
-        print(search_result)
+        search_results = search_by(phonebook, search_criteria[key], value)
+        
+        if action == 'sh':
+            for result in search_results:
+                print(f'''
+\bPhone: {result}
+Name:  {phonebook[result]["full_name"]}
+Address
+''')
+
     elif action == 'd':
         what_record = None
         delete_phone_number(what_record)
@@ -241,13 +250,14 @@ def perform(action):
 
 def request_action():
     
-    options = ['q', 'a', 's', 'd', 'u']
+    options = ['q', 'a', 's', 'sh', 'd', 'u']
     
     option = input('''
 Choose and action:
 
     a - to add an entry
     s - to search by any of the fields
+    sh - to search and show the entities 
     d - to delete an entry
     u - to update an entry
     q - to quit the phone book
