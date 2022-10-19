@@ -104,9 +104,19 @@ frequency_dictionary = sorted_frequency_dictionary(log_entities, False)
 #         print(entity)
 
 total = 0
+telegram_time = 0
+mozilla_time = 0
 for key, value in frequency_dictionary.items():
     print(str(datetime.timedelta(seconds = value)), key)
     total += value
+    if 'Telegram' in key:
+        telegram_time += value
+    if 'Mozilla' in key:
+        
+        mozilla_time += value
+
+print(str(datetime.timedelta(seconds = telegram_time)), 'Total telegram time')
+print(str(datetime.timedelta(seconds = mozilla_time)), 'Total mozilla time')
 print(str(datetime.timedelta(seconds = total)), 'Total time')
 print('Tracking started: ', time.ctime(float(log_entities[0][0])))
 print('Last entity: ', time.ctime(float(log_entities[-1][0])))
