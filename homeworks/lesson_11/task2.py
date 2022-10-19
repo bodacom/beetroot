@@ -207,6 +207,16 @@ def correct_input(valid_func, prompt: str, hint=False):
     return value
 
 
+def choose_valid_func(key: str):
+    valid_func_name = {'phone_number': valid_phone_number,
+                       'first_name': valid_first_or_last_name,
+                       'last_name': valid_first_or_last_name,
+                       'full_name': valid_first_or_last_name,
+                       'state': valid_city_or_state,
+                       'city': valid_city_or_state}
+    return valid_func_name[key]
+
+
 def perform(action):
 
     # Action == quit
@@ -234,7 +244,7 @@ def perform(action):
         c - city\n''')
 
         print(f'Search by {search_criteria[key]}.')
-        value = input('Input value to search for: ')
+        value = correct_input(choose_valid_func(search_criteria[key]),f'Enter valid {search_criteria[key]}: ')
         search_results = search_by(phonebook, search_criteria[key], value)
         
         if action == 'sh':
@@ -249,12 +259,12 @@ def perform(action):
 
     # Action == delete entry
     elif action == 'd':
-        what_record = input('What entry do you want to delete?\nInput the phone number: ')
+        what_record = input('What entry do you want to delete?\nInput the phone number in next format: +380XX-XXX-XX-XX:\n')
         delete_phone_number(what_record, phonebook)
 
     # Action == update
     elif action == 'u':
-        what_contact = input('What contact do you want to update: ')
+        what_contact = input('What contact do you want to update?\nInput phone number in next format: +380-XX-XXX-XX-XX:\n')
         key = input('What field do you want to update: ')
         update_contact_info(what_contact, key, phonebook)
 
