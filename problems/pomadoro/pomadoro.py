@@ -2,6 +2,7 @@
 # скільки залишилося, скільки запланованих справ ще належить зробити за день.
 # Отже, запускаємо 25 хвилинний інтервал, чи будь-який інший, і рахуємо час.
 # Як тільки час пройдено - відмічається проходження одного блоку. Плануємо інший блок.
+# функції паузи, відновлення, повної зупанки
 #
 # ANSI Escape sequences
 # Colorama
@@ -9,24 +10,8 @@
 
 import time
 import sys
+import keyboard
 
-# print('hello', end='')
-# sys.stdout.flush()
-# time.sleep(1)
-# print('\r bye', end='')
-# time.sleep(1)
-# sys.stdout.flush()
-# print('\rhehe')
-# time.sleep(1)
-# sys.stdout.flush()
-# print('\rhoho', end='')
-# time.sleep(1)
-# sys.stdout.flush()
-# print('\rups')
-# time.sleep(1)
-# sys.stdout.flush()
-
-import time
 
 # chars = 'ABCDEFGH'
 # loop = range(1, len(chars) + 1)
