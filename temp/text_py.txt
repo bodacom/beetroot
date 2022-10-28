@@ -1,0 +1,3 @@
+print('hello, I\'m text')
+print(2**100)
+input()
