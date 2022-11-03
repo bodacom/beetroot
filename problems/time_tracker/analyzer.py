@@ -217,7 +217,7 @@ def active_logged_intervals(entities: list, gap: float, sleep: float) -> list:
 
 if __name__ == '__main__':
 
-    lines = read_log('tracker_log_sample.txt')
+    lines = read_log()
     log_entities = make_entities(lines)
     print('Number of log entities:',len(log_entities))
 
