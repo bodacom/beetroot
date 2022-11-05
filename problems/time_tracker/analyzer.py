@@ -162,6 +162,7 @@ def get_mouse_location(entity: str) -> int:
 
     return location
 
+
 def active_logged_intervals(entities: list, gap: float, sleep: float) -> list:
     '''
     Finds and returns the active intervals with the sleep time no more than 'sleep' seconds
@@ -218,6 +219,7 @@ def active_logged_intervals(entities: list, gap: float, sleep: float) -> list:
 if __name__ == '__main__':
 
     lines = read_log()
+    
     log_entities = make_entities(lines)
     print('Number of log entities:',len(log_entities))
 
@@ -244,7 +246,7 @@ if __name__ == '__main__':
     print('Tracking started: ', time.ctime(float(log_entities[0][0])))
     print('Last entity: ', time.ctime(float(log_entities[-1][0])))
 
-    intervals = active_logged_intervals(log_entities, 2, 10)
+    intervals = logged_intervals(log_entities, 3)
     print(len(intervals))
     for index, interval in enumerate(intervals):
         if index < 9:
