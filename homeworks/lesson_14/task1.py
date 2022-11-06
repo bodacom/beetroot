@@ -42,10 +42,15 @@ def logger(func):
                     print(f' {arg}', end='')
         else:
             print(' no positional arguments')
-        if len(kwargs.keys()) > 0:
+        if len(kwargs) > 0:
             print(' and', end='')
-            for key, argument in kwargs.items():
-                print(f' {key}=\'{argument}\',', end='')
+            kwargs_keys = []
+            for key in kwargs:
+                kwargs_keys.append(key)
+                if len(kwargs_keys) < len(kwargs):
+                    print(f' {key}=\'{kwargs[key]}\',', end='')
+                else:
+                    print(f' {key}=\'{kwargs[key]}\'', end='')
             print()
         else:
             print(' and no keyword arguments')
@@ -64,6 +69,6 @@ def square_all(*args):
 
     return [arg ** 2 for arg in args]
 
-add(1, 2, 3, 4, boda='name')
+add(1, 2, 3, 4, name='bohdan')
 
 square_all(2, 3, 4)

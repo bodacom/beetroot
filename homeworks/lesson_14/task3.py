@@ -37,8 +37,15 @@
 def arg_rules(type_: type, max_length: int, contains: list):
     def get_func(func):
         def wrapper(*args, **kwargs):
-            result = func()
-            return 
+            for arg in args:
+                if type(arg) == type_ and len(arg) <= max_length:
+                    for el in contains:
+                        if el not in arg:
+                            return False
+                else:
+                    return False
+            result = func(args[0])
+            return result
 
         return wrapper
     return get_func
@@ -46,10 +53,11 @@ def arg_rules(type_: type, max_length: int, contains: list):
 
 @arg_rules(type_=str, max_length=15, contains=['05', '@'])
 def create_slogan(name: str) -> str:
-
     return f"{name} drinks pepsi in his brand new BMW!"
 
 
 assert create_slogan('johndoe05@gmail.com') is False
+print(create_slogan('johndoe05@gmail.com'))
 
 assert create_slogan('S@SH05') == 'S@SH05 drinks pepsi in his brand new BMW!'
+print(create_slogan('S@SH05'))
