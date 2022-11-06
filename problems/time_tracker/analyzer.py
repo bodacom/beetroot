@@ -218,7 +218,8 @@ def active_logged_intervals(entities: list, gap: float, sleep: float) -> list:
 
 if __name__ == '__main__':
 
-    lines = read_log()
+    fine_name = input('Enter log file name: (d=default) ')
+    lines = read_log(fine_name)
     
     log_entities = make_entities(lines)
     print('Number of log entities:',len(log_entities))
@@ -246,7 +247,7 @@ if __name__ == '__main__':
     print('Tracking started: ', time.ctime(float(log_entities[0][0])))
     print('Last entity: ', time.ctime(float(log_entities[-1][0])))
 
-    intervals = logged_intervals(log_entities, 3)
+    intervals = logged_intervals(log_entities, 4)
     print(len(intervals))
     for index, interval in enumerate(intervals):
         if index < 9:
