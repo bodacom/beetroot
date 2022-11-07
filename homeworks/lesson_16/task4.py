@@ -10,4 +10,13 @@
 class CustomException(Exception):
 
     def __init__(self, msg):
-        pass
+        self.message = msg
+        with open('logs.txt', 'a') as log:
+            log.write(self.message + '\n')
+        super().__init__('Exception occured')
+
+
+    def __str__(self) -> str:
+        return 'Exception occured __str__'
+
+raise CustomException('Test exception raised explicitly')

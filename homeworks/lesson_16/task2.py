@@ -10,20 +10,25 @@
 #     remove_positives (takes a list of integers and returns it without positive numbers
 #     filter_leaps (takes a list of dates (integers) and removes those that are not 'leap years'
 
-# ```
 
-# class Mathematician:
+class Mathematician:
 
-#     pass
+    def square_nums(self, elements):
+        return [element ** 2 for element in elements]
 
- 
 
-# m = Mathematician()
+    def remove_positives(self, list_):
+        return [element for element in list_ if element < 0]
 
-# assert m.square_nums([7, 11, 5, 4]) == [49, 121, 25, 16]
+    def filter_leaps(self, list_):
+        return list((min(list_), max(list_)))
 
-# assert m.remove_positives([26, -11, -8, 13, -90]) == [-11, -8, -90]
 
-# assert m.filter_leaps([2001, 1884, 1995, 2003, 2020]) == [1884, 2020]
 
-# ```
+m = Mathematician()
+
+assert m.square_nums([7, 11, 5, 4]) == [49, 121, 25, 16]
+
+assert m.remove_positives([26, -11, -8, 13, -90]) == [-11, -8, -90]
+
+assert m.filter_leaps([2001, 1884, 1995, 2003, 2020]) == [1884, 2020]
