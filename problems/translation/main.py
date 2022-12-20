@@ -3,7 +3,7 @@
 # done 2. Запиши англійські тексти у текстовий файл
 # done 3. Відкрити текстовий файл, зчитати інформацію та перекласти на українську мову, нижче кинув туторіал, доволі 
 # просто.
-# 4. Навмисно програмою придумати якісь помилки у виниклому перекладі, або ж вони можуть там з‘явитися самі собою, 
+# done 4. Навмисно програмою придумати якісь помилки у виниклому перекладі, або ж вони можуть там з‘явитися самі собою, 
 # наприклад:
 #     1. Після розділових знаків може не бути пробілу.
 #     2. Слова з дефісом можуть записуватись як "Нью -Йорк".
@@ -23,21 +23,21 @@ import random
 
 def generate_mistakes(text: str):
     """
-    Навмисно програмою придумати якісь помилки у виниклому перекладі, або ж вони можуть там з‘явитися самі собою, наприклад:
-     1. Після розділових знаків може не бути пробілу.
-     2. Слова з дефісом можуть записуватись як "Нью -Йорк".
-     3. Перед словом що не завжди стоїть кома(вона і не завжди потрібна, але в переважній більшості випадків - так).
-    Сигнатури помилок?
-
+    Функція додає пробіли перед розділовими знаками (.,!?) в рандомних локаціях рандомну кількість раз.
+    
     """
     symbols = '.,!?'
     locations = []
     previous_index = 0
-    # Generating list of relative punctuations locations throughout the text
+    
+    # Generating list of relative locations of punctuation marks throughout the text
     for index, symbol in enumerate(text):
         if symbol in symbols:
             locations.append(index - previous_index)
             previous_index = index
+    
+    # If list of relative locations not empty we will add some additional whitespaces 
+    # before random punctuation marks from locations. Relative locations are going to be modified each time.
     if locations:
         number_of_mistakes = random.randint(1, len(locations))
         for _ in range(0, number_of_mistakes):
@@ -55,21 +55,26 @@ def generate_mistakes(text: str):
 
 def fix_mistakes(text: str):
     """
-    Виправити ці та інші можливі помилки.
-    Сигнатури помилок?
+    Функція видаляє пробіли перед розділовими знаками (.,!?)
 
     """
     symbols = '.,!?'
-    the_end = False
+    the_end_of_text = False
     index = 0
-    while not the_end:
+    
+    # As there is a chance on multiple whitespaces before some punctuation mark let's use while loop
+    while not the_end_of_text:
         if text[index] in symbols:
             if index != 0:
                 if text[index-1] == ' ':
                     text = text[0:index-1] + text[index:]
-                    index -= 1
-                    continue
-        index += 1
+                    index -= 1 # going back to one index trying to find more whitespaces
+                    continue # skipping of index increasing
+        if not index == len(text) - 1:
+            index += 1
+        else:
+            the_end_of_text = True # setting the variable to exit the loop
+
     return text
 
 
@@ -172,23 +177,27 @@ def most_frequent_words(text: str, num_of_words: int):
 
     for word in list_of_words:
         list_of_frequencies.append([word, words_frequency[word]])
-        print(word, words_frequency[word])
+        #print(word, words_frequency[word])
 
-    return list_of_words[0: num_of_words]
-
-
+    return list_of_frequencies[0: num_of_words]
 
 
-# translator = Translator()
 
-# text = read_text_file('texts.txt')
 
-# result = translator.translate(text, src='en', dest='uk')
-# str_result = str(result)
+translator = Translator()
 
-# save_text_file(str_result)
+text = read_text_file('texts.txt')
 
-text = generate_mistakes('Hello, mistakes. I\'m not sure we are going to do it from the first time. But will see!')
+result = translator.translate(text, src='en', dest='uk')
+str_result = str(result)
+
+save_text_file(str_result)
+
+text = generate_mistakes(str_result)
 print(text)
 text = fix_mistakes(text)
 print(text)
+
+print(longest_sentence(text))
+print(num_of_words(text))
+print(most_frequent_words(text, 10))
