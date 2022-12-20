@@ -1,10 +1,13 @@
-# done 1. Збери декілька текстів англійської мови. Наприклад звернення Президента з телеграму, або щось із твітеру, новин.
+# done 1. Збери декілька текстів англійської мови. Наприклад звернення Президента з телеграму, або щось із твітеру,
+#  новин.
 # done 2. Запиши англійські тексти у текстовий файл
-# done 3. Відкрити текстовий файл, зчитати інформацію та перекласти на українську мову, нижче кинув туторіал, доволі просто.
-# 4. Навмисно програмою придумати якісь помилки у виниклому перекладі, або ж вони можуть там з‘явитися самі собою, наприклад:
+# done 3. Відкрити текстовий файл, зчитати інформацію та перекласти на українську мову, нижче кинув туторіал, доволі 
+# просто.
+# 4. Навмисно програмою придумати якісь помилки у виниклому перекладі, або ж вони можуть там з‘явитися самі собою, 
+# наприклад:
 #     1. Після розділових знаків може не бути пробілу.
 #     2. Слова з дефісом можуть записуватись як "Нью -Йорк".
-#     3. Перед словом що не завжди стоїть кома(вона і не завжди потрібна, але в переважній більшості випадків - так).
+#     3. Перед словом "що" не завжди стоїть кома(вона і не завжди потрібна, але в переважній більшості випадків - так).
 # 5. Виправити ці та інші можливі помилки.
 # 6. Отримати готовий і відредагований текст, який буде записано у текстовий файл із назвою _translated
 # done 7. Бонус! Зробити так, щоб програма виводила:
@@ -15,6 +18,7 @@
 
 # import googletrans
 from googletrans import Translator
+import random
 
 
 def generate_mistakes(text: str):
@@ -26,6 +30,26 @@ def generate_mistakes(text: str):
     Сигнатури помилок?
 
     """
+    symbols = '.,!?'
+    locations = []
+    previous_index = 0
+    # Generating list of relative punctuations locations throughout the text
+    for index, symbol in enumerate(text):
+        if symbol in symbols:
+            locations.append(index - previous_index)
+            previous_index = index
+    if locations:
+        number_of_mistakes = random.randint(1, len(locations))
+        for _ in range(0, number_of_mistakes):
+            mistake = random.randint(0,len(locations))
+            mistake_location = 0
+            for el in locations[0:mistake+1]:
+                mistake_location += locations[el]
+            text = text[0:mistake_location] + ' ' + text[mistake_location:]
+            locations[mistake] += 1
+    else:
+        print('No punctuation were found in the text. Mo mistakes were generated.')
+
     return text
 
 
