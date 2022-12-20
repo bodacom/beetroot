@@ -41,10 +41,10 @@ def generate_mistakes(text: str):
     if locations:
         number_of_mistakes = random.randint(1, len(locations))
         for _ in range(0, number_of_mistakes):
-            mistake = random.randint(0,len(locations))
+            mistake = random.randint(0,len(locations)-1)
             mistake_location = 0
             for el in locations[0:mistake+1]:
-                mistake_location += locations[el]
+                mistake_location += el
             text = text[0:mistake_location] + ' ' + text[mistake_location:]
             locations[mistake] += 1
     else:
@@ -59,6 +59,17 @@ def fix_mistakes(text: str):
     Сигнатури помилок?
 
     """
+    symbols = '.,!?'
+    the_end = False
+    index = 0
+    while not the_end:
+        if text[index] in symbols:
+            if index != 0:
+                if text[index-1] == ' ':
+                    text = text[0:index-1] + text[index:]
+                    index -= 1
+                    continue
+        index += 1
     return text
 
 
@@ -168,41 +179,16 @@ def most_frequent_words(text: str, num_of_words: int):
 
 
 
-# print(googletrans.LANGUAGES)
-# with open('texts.txt', 'r') as text_file:
-#     text = text_file.read()
-#     print(text)
-
-translator = Translator()
-
-text = read_text_file('texts.txt')
-
-result = translator.translate(text, src='en', dest='uk')
-str_result = str(result)
-# print(type(result))
-# print(str(result))
-
-save_text_file(str_result)
-
-# print(longest_sentence(text))
-
-# print(num_of_words(text))
-
-# print(most_frequent_words(text, 20))
-
-
-# print(result.src)
-# print(result.dest)
-# print(result.origin)
-# print(result.text)
-# print(result.pronunciation)
+# translator = Translator()
 
 # text = read_text_file('texts.txt')
 
-# save_text_file(text)
+# result = translator.translate(text, src='en', dest='uk')
+# str_result = str(result)
 
-# print(longest_sentence(text))
+# save_text_file(str_result)
 
-# print(num_of_words(text))
-
-# print(most_frequent_words(text, 20))
+text = generate_mistakes('Hello, mistakes. I\'m not sure we are going to do it from the first time. But will see!')
+print(text)
+text = fix_mistakes(text)
+print(text)
