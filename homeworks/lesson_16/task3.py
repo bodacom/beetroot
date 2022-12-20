@@ -37,11 +37,15 @@
 
 class Product:
 
-    pass
+    def __init__(self, product_type, product_name, product_price) -> None:
+        self.type = product_type
+        self.name = product_name
+        self.price = product_price
 
 class ProductStore:
 
-    pass
+    def __init__(self) -> None:
+        pass
 
 p = Product('Sport', 'Football T-Shirt', 100)
 
